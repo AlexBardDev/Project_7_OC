@@ -6,7 +6,7 @@ app.config.from_object('config')
 @app.route('/')
 @app.route('/grandpybot/')
 def home():
-    """This view return the template"""
+    """This view return the GrandPy template"""
 
     return render_template("grandpy.html")
 
