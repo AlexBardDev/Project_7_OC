@@ -23,7 +23,6 @@ header, footer
 {
     background-color: black;
     color: white;
-    border-radius: 10px;
 }
 
 .logo
@@ -60,10 +59,21 @@ a:hover
 }
 
 /* Section */
-section
+
+.dialog
 {
-    height: 100px;
+    height: 348px;
+    background-color: rgb(163, 226, 255);
 }
+
+.dialog p
+{
+    font-style: italic;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+/* Media querries */
 
 @media all and (max-width: 768px)
 {
@@ -83,7 +93,7 @@ section
 
     .logo
     {
-        font-size: 2em;
+        font-size: 1.9em;    
     }
 
     footer p
