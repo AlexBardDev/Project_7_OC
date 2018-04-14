@@ -64,6 +64,7 @@ a:hover
 {
     height: 348px;
     background-color: rgb(163, 226, 255);
+    overflow: auto;
 }
 
 .dialog p
