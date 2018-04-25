@@ -27,9 +27,11 @@ function displayMessage(content) {
     scroll();
 };
 
+/* Search the adress and display the informations */
 function searchAdress(content) {
     if (myRegex.test(content)) {
-        displayMessage(content);
+        var adress = myRegex.exec(content);
+        displayMessage(adress);
     }
     else {
         displayMessage(incorrectQuestion);
