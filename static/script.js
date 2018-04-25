@@ -3,6 +3,8 @@ $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 });
 
+var height_pixels = 0;
+
 /* Display a new message */
 function displayMessage(content) {
     var pElt = document.createElement("p");
@@ -22,13 +24,8 @@ $("textarea").on("keypress", function (e) {
         $(this).val("");
         $(".dialog p[class='text-center'").hide();
         displayMessage(content);
-        var nb = $(".dialog").height();
-        $(".dialog").scrollTop(nb);
-        console.log(nb);
+        var nb = $(".dialog p:last").outerHeight(true);
+        height_pixels += nb;
+        $(".dialog").scrollTop(height_pixels);
     }
 });
-
-/* Faire un insertBefore pour que les messages s'affichent vers le haut 
-prolbème de scroll après les putains de 348 px
-
-*/
