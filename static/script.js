@@ -56,18 +56,19 @@ function displayLoader() {
     scroll("img");
 };
 
-/* Search the adress and display the informations */
-function searchAdress(content) {
+/* Search the address and display the informations */
+function searchaddress(content) {
     if (myRegex.test(content)) {
-        var adress = String(myRegex.exec(content));
-        adress = adress.split(" ", 2);
-        delete adress[0];
-        adress = adress.join("");
+        var address = String(myRegex.exec(content));
+        address = address.split(" ", 2);
+        delete address[0];
+        address = address.join("");
         displayLoader();
         setTimeout( function () {
             $(".dialog img").remove();
-            $.get("https://maps.googleapis.com/maps/api/geocode/json?address=" + adress + "&key=AIzaSyCDUsZJNgvYtnQ1Z3ZgFY7KvsSRwr-ApLc", function (data) {
-                console.log(data);
+            $.get("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyCDUsZJNgvYtnQ1Z3ZgFY7KvsSRwr-ApLc", function (data) {
+                var exact_address = data["results"][0]["formatted_address"];
+                displayMessage( "Bien sûr mon poussin ! La voici : " + exact_address, user_2);
             });
         }, 1000);
     }
@@ -85,6 +86,6 @@ $("textarea").on("keypress", function (e) {
             $(".dialog p[class='text-center'").hide();
         };
         displayMessage(content, user_1);
-        searchAdress(content);
+        searchaddress(content);
     }
 });
