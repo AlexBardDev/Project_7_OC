@@ -80,9 +80,13 @@ function displayMap(lat, lng) {
 function searchaddress(content) {
     if (myRegex.test(content)) {
         var address = String(myRegex.exec(content));
-        address = address.split(" ", 2);
+        address = address.split(" ");
         delete address[0];
-        address = address.join("");
+        if (address.length > 2) {
+            var nb = address.length -1;
+            delete address[nb];
+        }
+        address = address.join(" ");
         displayLoader();
         setTimeout( function () {
             $(".dialog img").remove();
