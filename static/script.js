@@ -59,8 +59,11 @@ function searchAdress(content) {
     if (myRegex.test(content)) {
         var adress = myRegex.exec(content);
         displayLoader();
-        displayMessage(adress);
-        customized();
+        setTimeout( function () {
+            $(".dialog img:last").remove();
+            displayMessage(adress);
+            customized();
+        }, 1000);
     }
     else {
         displayMessage(incorrectQuestion);
