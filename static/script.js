@@ -9,7 +9,7 @@ var myRegex = /adresse {1}[A-Za-z0-9']* ?[.?,!]{1}/;
 var incorrectQuestion = "Désolé mon enfant, mais je suis un vieux papy. Je ne comprends pas très bien ta question. Quelle adresse veux-tu ?";
 
 /* Create a new paragraph */
-function createBox(content) {
+function createMessage(content) {
     var pElt = document.createElement("p");
     pElt.textContent = content;
     pElt.style.width = "200px";
@@ -29,8 +29,23 @@ function scroll() {
 
 /* Display a new message */
 function displayMessage(content) {
-    createBox(content);
+    createMessage(content);
     scroll();
+};
+
+/* Create the loader */
+function createLoader() {
+    var imgElt = document.createElement("img");
+    imgElt.setAttribute("src", "../static/ajax_loader.gif");
+    document.getElementsByClassName("dialog")[0].appendChild(imgElt)
+};
+
+/* Display the loader */
+function displayLoader() {
+    createLoader();
+    scroll();
+    var screenSize = $(".dialog").outerWidth(true) - 150;
+    $(".dialog img:last").css("margin-left", screenSize);
 };
 
 /* Custom the answers of GrandPy Bot */
@@ -43,6 +58,7 @@ function customized() {
 function searchAdress(content) {
     if (myRegex.test(content)) {
         var adress = myRegex.exec(content);
+        displayLoader();
         displayMessage(adress);
         customized();
     }
