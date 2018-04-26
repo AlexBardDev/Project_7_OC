@@ -56,6 +56,26 @@ function displayLoader() {
     scroll("img");
 };
 
+/* Create a map */
+function createMap(lat_place, lng_place) {
+    $("<div id='map'></div>").appendTo(".dialog");
+    var screenSize = $(".dialog").outerWidth(true) - 230;
+    $(".dialog div:last").css({
+        "height" : "200px",
+        "width" : "200px",
+        "margin-bottom" : "10px",
+        "margin-left" : screenSize,
+    });
+    $("<script>function initMap() {var place = {lat: " + lat_place + ", lng: " + lng_place + "}; var map = new google.maps.Map(document.getElementById('map'), {zoom: 10,center: place});var marker = new google.maps.Marker({position: place,map: map});}</script>").appendTo("body");
+    $("<script async defer src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBbwSbN7TkCEpCcAChqxfMDHbuBDwf6oao&callback=initMap'></script>").appendTo("body");
+};
+
+/* Display the Google maps map */
+function displayMap(lat, lng) {
+    createMap(lat, lng);
+    scroll("div:last");
+};
+
 /* Search the address and display the informations */
 function searchaddress(content) {
     if (myRegex.test(content)) {
@@ -69,6 +89,9 @@ function searchaddress(content) {
             $.get("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyCDUsZJNgvYtnQ1Z3ZgFY7KvsSRwr-ApLc", function (data) {
                 var exact_address = data["results"][0]["formatted_address"];
                 displayMessage( "Bien sûr mon poussin ! La voici : " + exact_address, user_2);
+                var lat = data["results"][0]["geometry"]["location"]["lat"];
+                var lng = data["results"][0]["geometry"]["location"]["lng"];
+                displayMap(lat, lng);
             });
         }, 1000);
     }
