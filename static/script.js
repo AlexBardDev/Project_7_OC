@@ -6,52 +6,54 @@ $(function () {
 /* Some Variables */
 var height_pixels = 0;
 var myRegex = /adresse {1}[A-Za-z0-9']* ?[.?,!]{1}/;
+var user_1 = "web client";
+var user_2 = "GrandPy Bot";
 var incorrectQuestion = "Désolé mon enfant, mais je suis un vieux papy. Je ne comprends pas très bien ta question. Quelle adresse veux-tu ?";
 
-/* Create a new paragraph */
-function createMessage(content) {
-    var pElt = document.createElement("p");
-    pElt.textContent = content;
-    pElt.style.width = "200px";
-    pElt.style.backgroundColor = "blue";
-    pElt.style.color = "white";
-    pElt.style.borderRadius = "10px";
-    pElt.style.padding = "5px";
-    document.getElementsByClassName("dialog")[0].appendChild(pElt);
+/* Create a new message */
+function createMessage(content, user) {
+    $("<p>" + content + "</p>").appendTo(".dialog");
+    $(".dialog p:last").css({
+        "width" : "200px",
+        "color" : "white",
+        "border-radius" : "10px",
+        "padding" : "5px",
+    });
+    if (user === "web client") {
+        $(".dialog p:last").css("background-color", "blue");
+    }
+    else {
+        var screenSize = $(".dialog").outerWidth(true) - 230;
+        $(".dialog p:last").css({"margin-left" : screenSize, "background-color" : "red"});
+    }
 };
 
 /* Scroll automatically to the bottom of the page */
-function scroll() {
-    var nb = $(".dialog p:last").outerHeight(true);
-    height_pixels += nb;
+function scroll(elt) {
+    var heightElement = $(".dialog " + elt).outerHeight(true);
+    height_pixels += heightElement;
     $(".dialog").scrollTop(height_pixels);
 };
 
 /* Display a new message */
-function displayMessage(content) {
-    createMessage(content);
-    scroll();
+function displayMessage(content, user) {
+    createMessage(content, user);
+    scroll("p:last");
 };
 
 /* Create the loader */
 function createLoader() {
-    var imgElt = document.createElement("img");
-    imgElt.setAttribute("src", "../static/ajax_loader.gif");
-    document.getElementsByClassName("dialog")[0].appendChild(imgElt)
+    $("<img src='../static/ajax_loader.gif' alt='loader'/>").appendTo(".dialog");
+    var screenSize = $(".dialog").outerWidth(true) - 150;
+    $(".dialog img").css({
+        "margin-left" : screenSize,
+        "margin-bottom" : "10px"});
 };
 
 /* Display the loader */
 function displayLoader() {
     createLoader();
-    scroll();
-    var screenSize = $(".dialog").outerWidth(true) - 150;
-    $(".dialog img:last").css("margin-left", screenSize);
-};
-
-/* Custom the answers of GrandPy Bot */
-function customized() {
-    var screenSize = $(".dialog").outerWidth(true) - 230;
-    $(".dialog p:last").css({"margin-left" : screenSize, "background-color" : "red"});
+    scroll("img");
 };
 
 /* Search the adress and display the informations */
@@ -60,14 +62,12 @@ function searchAdress(content) {
         var adress = myRegex.exec(content);
         displayLoader();
         setTimeout( function () {
-            $(".dialog img:last").remove();
-            displayMessage(adress);
-            customized();
+            $(".dialog img").remove();
+            displayMessage(adress, user_2);
         }, 1000);
     }
     else {
-        displayMessage(incorrectQuestion);
-        customized();
+        displayMessage(incorrectQuestion, user_2);
     }
 };
 
@@ -76,8 +76,10 @@ $("textarea").on("keypress", function (e) {
     if (e.keyCode === 13) {
         var content = e.target.value;
         $(this).val("");
-        $(".dialog p[class='text-center'").hide();
-        displayMessage(content);
+        if ($(".dialog p[class='text-center'").is(":visible")) {
+            $(".dialog p[class='text-center'").hide();
+        };
+        displayMessage(content, user_1);
         searchAdress(content);
     }
 });
