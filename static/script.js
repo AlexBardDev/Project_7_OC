@@ -5,7 +5,7 @@ $(function () {
 
 /* Some Variables */
 var height_pixels = 0;
-var myRegex = /adresse {1}[A-Za-z0-9' ]* ?[.?,!]{1}/;
+var myRegex = /adresse [A-Za-z' ]* ?[.?,!]{1}/;
 var user_1 = "web client";
 var user_2 = "GrandPy Bot";
 var incorrectQuestion = "Désolé mon enfant, mais je suis un vieux papy. Je ne comprends pas très bien ta question. Quelle adresse veux-tu ?";
