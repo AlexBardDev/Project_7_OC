@@ -100,6 +100,8 @@ function searchaddress(content) {
                 research = research.join("_");
                 $.get("https://fr.wikipedia.org/w/api.php?origin=*&action=query&titles=" + research + "&prop=revisions&rvprop=content&format=json", function (data) {
                     var anecdote = data["query"]["pages"]["5653202"]["revisions"][0]["*"];
+                    anecdote = anecdote.split("==")[2].split("File")[0];
+                    anecdote = anecdote.substring(0, 54) + anecdote.substring(56,83) + "." + anecdote.substring(122,141) + " T" + anecdote.substring(158,277);
                     displayMessage("Mais t'ai-je déjà raconté l'histoire de ce quartier qui m'a vu en culottes courtes ? " + anecdote);
                 });
             });
@@ -122,5 +124,3 @@ $("textarea").on("keypress", function (e) {
         searchaddress(content);
     }
 });
-
-/* Guillaume Rémy$.ajax({          url: "http://localhost/PlatformPortal/Buyers/Account/SignIn",          data: { signature: authHeader },          type: "GET",          beforeSend: function(xhr){xhr.setRequestHeader('X-Test-Header', 'test-value');},          success: function() { alert('Success!' + authHeader); }       })*/
