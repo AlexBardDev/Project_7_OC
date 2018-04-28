@@ -5,7 +5,7 @@ $(function () {
 
 /* Some Variables */
 var height_pixels = 0;
-var myRegex = /adresse [A-Za-z' ]* ?[.?,!]{1}/;
+var myRegex = /adresse [A-Za-z' ]* [.?!]{1}/;
 var user_1 = "web client";
 var user_2 = "GrandPy Bot";
 var incorrectQuestion = "Désolé mon enfant, mais je suis un vieux papy. Je ne comprends pas très bien ta question. Quelle adresse veux-tu ?";
@@ -59,14 +59,14 @@ function displayLoader() {
 /* Create a map */
 function createMap(lat_place, lng_place) {
     $("<div id='map'></div>").appendTo(".dialog");
-    var screenSize = $(".dialog").outerWidth(true) - 230;
+    var screenSize = $(".dialog").outerWidth(true) - 430;
     $(".dialog div:last").css({
-        "height" : "200px",
-        "width" : "200px",
+        "height" : "400px",
+        "width" : "400px",
         "margin-bottom" : "10px",
         "margin-left" : screenSize,
     });
-    $("<script>function initMap() {var place = {lat: " + lat_place + ", lng: " + lng_place + "}; var map = new google.maps.Map(document.getElementById('map'), {zoom: 10,center: place});var marker = new google.maps.Marker({position: place,map: map});}</script>").appendTo("body");
+    $("<script>function initMap() {var place = {lat: " + lat_place + ", lng: " + lng_place + "}; var map = new google.maps.Map(document.getElementById('map'), {zoom: 15,center: place});var marker = new google.maps.Marker({position: place,map: map});}</script>").appendTo("body");
     $("<script async defer src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBbwSbN7TkCEpCcAChqxfMDHbuBDwf6oao&callback=initMap'></script>").appendTo("body");
 };
 
@@ -79,14 +79,13 @@ function displayMap(lat, lng) {
 /* Search the address and display the informations */
 function searchaddress(content) {
     if (myRegex.test(content)) {
-        var address = String(myRegex.exec(content));
-        address = address.split(" ");
-        delete address[0];
-        if (address.length > 2) {
-            var nb = address.length -1;
-            delete address[nb];
+        var address = String(myRegex.exec(content)).split(" ");
+        if (address[1] === "de") {
+            address = address[2];
         }
-        address = address.join(" ");
+        else {
+            address = address[1].split("'")[1];
+        }
         displayLoader();
         setTimeout( function () {
             $(".dialog img").remove();
@@ -119,3 +118,5 @@ $("textarea").on("keypress", function (e) {
         searchaddress(content);
     }
 });
+
+/* Guillaume Rémy$.ajax({          url: "http://localhost/PlatformPortal/Buyers/Account/SignIn",          data: { signature: authHeader },          type: "GET",          beforeSend: function(xhr){xhr.setRequestHeader('X-Test-Header', 'test-value');},          success: function() { alert('Success!' + authHeader); }       })*/
