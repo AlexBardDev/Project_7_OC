@@ -95,9 +95,13 @@ function searchaddress(content) {
                 var lat = data["results"][0]["geometry"]["location"]["lat"];
                 var lng = data["results"][0]["geometry"]["location"]["lng"];
                 displayMap(lat, lng);
-            });
-            $.get("https://fr.wikipedia.org/w/api.php?origin=*&action=query&titles=Cité_Paradis&prop=revisions&rvprop=content&format=json", function (data) {
-                console.log(data);
+                var research = exact_address.split(",")[0].split(" ");
+                delete research[0];
+                research = research.join("_");
+                $.get("https://fr.wikipedia.org/w/api.php?origin=*&action=query&titles=" + research + "&prop=revisions&rvprop=content&format=json", function (data) {
+                    var anecdote = data["query"]["pages"]["5653202"]["revisions"][0]["*"];
+                    displayMessage("Mais t'ai-je déjà raconté l'histoire de ce quartier qui m'a vu en culottes courtes ? " + anecdote);
+                });
             });
         }, 1000);
     }
