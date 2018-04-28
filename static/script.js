@@ -102,6 +102,10 @@ function searchaddress(content) {
                     var anecdote = data["query"]["pages"]["5653202"]["revisions"][0]["*"];
                     anecdote = anecdote.split("==")[2].split("File")[0];
                     anecdote = anecdote.substring(0, 54) + anecdote.substring(56,83) + "." + anecdote.substring(122,141) + " T" + anecdote.substring(158,277);
+                    anecdote = anecdote.split("[[");
+                    anecdote = anecdote.join("");
+                    anecdote = anecdote.split("]]");
+                    anecdote = anecdote.join("");
                     displayMessage("Mais t'ai-je déjà raconté l'histoire de ce quartier qui m'a vu en culottes courtes ? " + anecdote);
                 });
             });
