@@ -96,7 +96,7 @@ function searchaddress(content) {
                 var lng = data["results"][0]["geometry"]["location"]["lng"];
                 displayMap(lat, lng);
             });
-            $.get("https://en.wikipedia.org/w/api.php?action=query&titles=" + address + "&prop=revisions&rvprop=content&format=json", function (data) {
+            $.get("https://fr.wikipedia.org/w/api.php?origin=*&action=query&titles=Cité_Paradis&prop=revisions&rvprop=content&format=json", function (data) {
                 console.log(data);
             });
         }, 1000);
