@@ -147,12 +147,3 @@ $("textarea").on("keypress", function (e) {
         responseGrandPyBot(content);
     }
 });
-
-/*
-0) Mettre le loader à chaque étape FINISHED
-1) Choisir au hasard une phrase pour les infos wikipedia FINISHED
-2) Indiquer que pas d'infos sur pas recherche OC FINISHED
-3) Afficher pls maps
-4) Faire fonctionner Flask
-5) Déploiement
-*/
