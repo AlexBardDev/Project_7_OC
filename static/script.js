@@ -12,6 +12,7 @@ var data = "";
 var incorrectQuestion = "Désolé mon enfant, mais je suis un vieux papy. Je ne comprends pas très bien ta question. Quelle adresse veux-tu ?";
 var stories = ["Mais t'ai-je déjà raconté l'histoire de ce quartier qui m'a vu en culottes courtes ? ",
 "Mais t'ai-je déjà raconté l'histoire de ce quartier où j'ai grandi ? ", "Mais t'ai-je déjà raconté l'histoire de ce quartier où j'ai rencontré ta mamie ? "];
+var noStory = "Désolé mon enfant, mais je n'ai pas d'anecdotes à raconter sur ce lieu."
 
 /* Create a new message */
 function createMessage(content, user) {
@@ -109,13 +110,18 @@ function responseGrandPyBot(content) {
                         delete research[0];
                         research = research.join("_");
                         $.get("https://fr.wikipedia.org/w/api.php?origin=*&action=query&titles=" + research + "&prop=revisions&rvprop=content&format=json", function (responseWiki) {
-                            var anecdote = responseWiki["query"]["pages"]["5653202"]["revisions"][0]["*"];
-                            anecdote = anecdote.split("==")[2].split("File")[0];
-                            anecdote = anecdote.substring(0, 54) + anecdote.substring(56,83) + "." + anecdote.substring(122,141) + " T" + anecdote.substring(158,277);
-                            anecdote = anecdote.split("[[").join("").split("]]").join("");
-                            var index = Math.floor(Math.random()*stories.length);
-                            story = stories[index];
-                            displayMessage(story + anecdote);
+                            if (responseWiki === undefined || responseWiki["query"] === undefined || responseWiki["query"]["pages"]["5653202"] === undefined) {
+                                displayMessage(noStory);
+                            }
+                            else {
+                                var anecdote = responseWiki["query"]["pages"]["5653202"]["revisions"][0]["*"];
+                                anecdote = anecdote.split("==")[2].split("File")[0];
+                                anecdote = anecdote.substring(0, 54) + anecdote.substring(56,83) + "." + anecdote.substring(122,141) + " T" + anecdote.substring(158,277);
+                                anecdote = anecdote.split("[[").join("").split("]]").join("");
+                                var index = Math.floor(Math.random()*stories.length);
+                                story = stories[index];
+                                displayMessage(story + anecdote);
+                            }
                         });
                     },1000);
                 },1000);
@@ -142,8 +148,8 @@ $("textarea").on("keypress", function (e) {
 
 /*
 0) Mettre le loader à chaque étape FINISHED
-1) Choisir au hasard une phrase pour les infos wikipedia FINISEHD
-2) Indiquer que pas d'infos sur pas recherche OC
+1) Choisir au hasard une phrase pour les infos wikipedia FINISHED
+2) Indiquer que pas d'infos sur pas recherche OC FINISHED
 3) Afficher pls maps
 4) Faire fonctionner Flask
 5) Déploiement
