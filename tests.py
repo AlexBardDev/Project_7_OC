@@ -1,4 +1,7 @@
-#import external library
+#import standard library
+import unittest
+
+#import external libraries
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -6,19 +9,17 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from flask_testing import LiveServerTestCase
-from flask import Flask, url_for
 
+#import local library
 from grandpybot import app
 
-import unittest
-
 class TestGrandPyBot(LiveServerTestCase):
-    """This class contains all the tests for the script grandpybot.py"""
+    """This class contains all the tests"""
 
     def create_app(self):
         """It creates the app for the testing purpose"""
 
-        app.config.testing=True
+        app.config.testing = True
         return app
 
     def setUp(self):
@@ -26,7 +27,7 @@ class TestGrandPyBot(LiveServerTestCase):
 
         self.driver = webdriver.Firefox()
         self.driver.get(self.get_server_url())
-        
+
     def tearDown(self):
         """This method is called after each test"""
 
@@ -46,19 +47,23 @@ class TestGrandPyBot(LiveServerTestCase):
         ActionChains(self.driver).key_down(Keys.ENTER).perform()
 
     def test_google_maps_api(self):
-        """It tests the Google Maps API. If after 5 seconds there is nothing,
+        """It tests the Google Maps API. If after 6 seconds there is nothing,
         selenium will raise a TimeOut Exception. Otherwise, my_map exists and
         the Google Maps API gaves data to the JavaScript file."""
 
         self.call_the_apis()
-        my_map = WebDriverWait(self.driver, 6).until(EC.presence_of_element_located((By.ID, "map1")))
+        my_map = WebDriverWait(self.driver, 6).until(
+            EC.presence_of_element_located((By.ID, "map1")))
         assert my_map
 
     def test_media_wiki_api(self):
-        """It tests the Media Wiki API"""
+        """It tests the Media Wiki API. If after 10 seconds there is nothing,
+        selenium will raise a TimeOut Exception. Otherwise, story exists and
+        the Media Wiki API gaves data to the JavaScript file."""
 
         self.call_the_apis()
-        story = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "story")))
+        story = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "story")))
         assert story.text[:51] == "Mais t'ai-je déjà raconté l'histoire de ce quartier"
 
 unittest.main()
