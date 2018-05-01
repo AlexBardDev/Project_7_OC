@@ -124,6 +124,7 @@ function responseGrandPyBot(content) {
                                 story = stories[index];
                                 displayMessage(story + anecdote);
                             }
+                            $(".dialog p:last").addClass("story");
                         });
                     },1000);
                 },1000);
