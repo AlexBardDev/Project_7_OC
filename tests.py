@@ -1,4 +1,7 @@
+#import standard library
 import unittest
+
+#import local library
 import grandpybot
 
 class TestGrandPyBot(unittest.TestCase):
