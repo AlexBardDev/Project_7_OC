@@ -15,6 +15,10 @@ I have to use a Test-Driven Developement for this project.
 - config.py contains some configurations for Flask and tests.py contains the tests of the web server.
 - the folder *static* contains the JavaScript and CSS files. And the folder *templates* contains the HTML page.
 
+# Link
+
+Here is the project : https://alexbarddev-grandpybot.herokuapp.com/
+
 # Attention
 
 When you use GrandPy Bot and you are looking for a new place, please enter the new place in French like : "l'adresse de/d' *[lieu]* ?". For example, "Peux-tu me donner l'adresse d'OpenClassrooms ?" or "Quelle est l'adresse de Google ?".
